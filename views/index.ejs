@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" type="text/css" href="./style.css">
+    <title>Epic Button Game </title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script type="text/javascript">
+       
+        $(document).ready(function () {
+            var socket = io();
+            socket.on('updateClient', function (data) {
+                    console.log(data.counter)
+                    $("#counter").text("Counter: "+data.counter)
+                });
+                socket.on('updateAllClients', function (data) {
+                    console.log(data.counter)
+                    $("#counter").text("Counter: "+data.counter)
+                });
+            $('#increaseForm').submit(function (e) {
+                socket.emit('increase_count')
+                e.preventDefault();
+            });
+            $('#ResetForm').submit(function (e) {
+                socket.emit('reset_count')
+                e.preventDefault();
+            });
+
+        })
+
+    </script>
+</head>
+<body>
+    <div id="wrapper">
+        <h1 id="counter"></h1>
+
+        <form id="increaseForm" >
+            <button id="increase" type="submit">Push the epic button</button>
+        </form>
+        <form id="ResetForm" >
+            <button id="reset" type="submit">Reset Counter</button>
+        </form>
+    </div>
+</body>
+</html>
